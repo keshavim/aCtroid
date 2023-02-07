@@ -4,10 +4,7 @@
         {
             "label": "build",
             "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            
             "windows": {
                 "command": "powershell",
                 "args": [
@@ -33,6 +30,10 @@
         {
             "label": "build & run",
             "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "windows": {
                 "command": "powershell",
                 "args": [
