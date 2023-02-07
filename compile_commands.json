@@ -1,32 +1,10 @@
 [
   {
     "arguments": [
-      "/usr/bin/gcc",
-      "-std=c11",
+      "/usr/sbin/gcc",
       "-Wall",
       "-Wextra",
-      "-Wpedantic",
       "-g",
-      "-O0",
-      "-Iinclude",
-      "-c",
-      "-o",
-      "src/head.o",
-      "src/head.c"
-    ],
-    "directory": "/home/keshavi/projects/ctest",
-    "file": "/home/keshavi/projects/ctest/src/head.c",
-    "output": "/home/keshavi/projects/ctest/src/head.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-std=c11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-g",
-      "-O0",
       "-Iinclude",
       "-c",
       "-o",

@@ -4,15 +4,15 @@
 #
 
 # define the C compiler to use
-CC = gcc
+CC = clang
 
 # define any compile-time flags
-CFLAGS	:= -std=c11 -Wall -Wextra -Wpedantic -g -O0 
+CFLAGS	:= -Wall -Wextra -g
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = -lm -ldl -lpthread -lglfw3 -lgl -lcglm
+LFLAGS = -lglfw3 -ldl -lpthread -lm -lglad
 
 # define output directory
 OUTPUT	:= output
@@ -71,7 +71,7 @@ $(OUTPUT):
 	$(MD) $(OUTPUT)
 
 $(MAIN): $(OBJECTS) 
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(OUTPUTMAIN) $(OBJECTS) $(LIBS) $(LFLAGS) 
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(OUTPUTMAIN) $(OBJECTS) $(LFLAGS) $(LIBS)
 
 # this is a suffix replacement rule for building .o's from .c's
 # it uses automatic variables $<: the name of the prerequisite of
