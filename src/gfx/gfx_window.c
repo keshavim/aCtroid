@@ -84,6 +84,8 @@ void window_create()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE); 
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 
 
     /* Create a windowed mode window and its OpenGL context */
@@ -110,6 +112,9 @@ void window_create()
 }
 
 void window_loop(){
+    Renderer renderer;
+    renderer_create(&renderer);
+    shader_bind(&renderer.shader);
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window.handle))
     {
@@ -124,6 +129,7 @@ void window_loop(){
             printf("mouse");
             fflush(stdout);
         }
+        renderer_draw_square(&renderer);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window.handle);

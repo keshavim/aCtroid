@@ -32,7 +32,7 @@ static void _compile(Shader *self, char *fullstr){
     u32 vs_handle = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vs_handle, 1,  (const GLchar *const *)&vertex_source, (const GLint*)&vsize);
     glCompileShader(vs_handle);
-    glAttachShader(self->program, vs_handle);
+    
 
     //*gets fragment source
     u32 fsize = strstr(fullstr, "//FRAGMENT_END") - fullstr - vsize;
@@ -40,10 +40,27 @@ static void _compile(Shader *self, char *fullstr){
     memcpy(fragment_source, fullstr + vsize, fsize);
 
     //*compiles and attaches fragment source
-    u32 fs_handle = glCreateShader(GL_VERTEX_SHADER);
+    u32 fs_handle = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fs_handle, 1,  (const GLchar *const *)&fragment_source, (const GLint*)&fsize);
     glCompileShader(fs_handle);
+    
+
+    glAttachShader(self->program, vs_handle);
     glAttachShader(self->program, fs_handle);
+
+    glBindAttribLocation(self->program, 0, "aPos");
+
+    glLinkProgram(self->program);
+
+    GLint linked;
+    char infolog[1000];
+    glGetProgramiv(self->program, GL_LINK_STATUS, &linked);
+    if(linked == 0){
+        glGetProgramInfoLog(self->program, 512, NULL, infolog);
+        printf("%s", infolog);
+        exit(EXIT_FAILURE);
+    }
+
 
     free(vertex_source);
     free(fragment_source);
@@ -60,7 +77,7 @@ Shader shader_create(char *filepath)
 
     _compile(&self, fullstr);
 
-    glLinkProgram(self.program);
+    
 
     free(fullstr);
     

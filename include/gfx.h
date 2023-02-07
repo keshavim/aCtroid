@@ -52,4 +52,12 @@ void shader_delete(Shader *self);
 
 //renderer
 
+typedef struct{
+    Shader shader;
+    u32 vao, vbo, ebo, numElements;
+}Renderer;
+
+void renderer_create(Renderer *self);
+void renderer_draw_square(Renderer *self);
+
 #endif // GFX_H

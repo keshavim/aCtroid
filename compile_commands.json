@@ -1,7 +1,7 @@
 [
   {
     "arguments": [
-      "/usr/sbin/gcc",
+      "/usr/sbin/clang",
       "-Wall",
       "-Wextra",
       "-g",
@@ -11,8 +11,56 @@
       "src/main.o",
       "src/main.c"
     ],
-    "directory": "/home/keshavi/projects/ctest",
-    "file": "/home/keshavi/projects/ctest/src/main.c",
-    "output": "/home/keshavi/projects/ctest/src/main.o"
+    "directory": "/home/keshavi/cnake",
+    "file": "/home/keshavi/cnake/src/main.c",
+    "output": "/home/keshavi/cnake/src/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/sbin/clang",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "src/gfx/gfx_renderer.o",
+      "src/gfx/gfx_renderer.c"
+    ],
+    "directory": "/home/keshavi/cnake",
+    "file": "/home/keshavi/cnake/src/gfx/gfx_renderer.c",
+    "output": "/home/keshavi/cnake/src/gfx/gfx_renderer.o"
+  },
+  {
+    "arguments": [
+      "/usr/sbin/clang",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "src/gfx/gfx_shader.o",
+      "src/gfx/gfx_shader.c"
+    ],
+    "directory": "/home/keshavi/cnake",
+    "file": "/home/keshavi/cnake/src/gfx/gfx_shader.c",
+    "output": "/home/keshavi/cnake/src/gfx/gfx_shader.o"
+  },
+  {
+    "arguments": [
+      "/usr/sbin/clang",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "src/gfx/gfx_window.o",
+      "src/gfx/gfx_window.c"
+    ],
+    "directory": "/home/keshavi/cnake",
+    "file": "/home/keshavi/cnake/src/gfx/gfx_window.c",
+    "output": "/home/keshavi/cnake/src/gfx/gfx_window.o"
   }
 ]
