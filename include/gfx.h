@@ -5,59 +5,85 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <cglm/types-struct.h>
+#include <cglm/struct.h>
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "types.h"
 
-//window
-typedef struct{
-    bool down;
-}Button;
+// window
+typedef struct {
+  bool down;
+} Button;
 
-typedef  struct{
-    GLFWwindow *handle;
-    ivec2s size;
-    s8 *title;
-
-    Button keys[GLFW_KEY_LAST];
-    Button mouse[GLFW_MOUSE_BUTTON_LAST];
-} Window;
-//global window
-extern Window window;
-
-void window_create();
-void window_loop();
-
-
-//shader
+typedef void (*sceneFunc)(void);
 
 typedef struct {
-    u32 program;
-    char *filepath;
-    u32 vs_handle;
-    u32 fs_handle;
-    char *vertex_source;
-    char *fragment_source;
-}Shader;
+  GLFWwindow *handle;
+  ivec2s size;
+  s8 *title;
+
+  // this is completely unnessacery but it looks cool so i'm keeping it
+  sceneFunc init, delete, render, update;
+
+  Button key[GLFW_KEY_LAST];
+  Button mouse[GLFW_MOUSE_BUTTON_LAST];
+
+  float currentTime, lastTime, deltaTime, fps;
+} Window;
+// global window
+extern Window window;
+
+void window_init(sceneFunc init, sceneFunc update, sceneFunc render,
+                 sceneFunc delete);
+void window_loop();
+
+// shader
+
+typedef struct {
+  u32 program;
+  char *filepath;
+} Shader;
 
 Shader shader_create(char *filepath);
 void shader_bind(Shader *self);
 void shader_unbind(Shader *self);
 void shader_delete(Shader *self);
 
-//renderer
+void shader_setUniformi(Shader *self, char *name, s32 val);
+void shader_setUniform1f(Shader *self, char *name, float val);
+void shader_setUniform2f(Shader *self, char *name, vec2s val);
+void shader_setUniform3f(Shader *self, char *name, vec3s val);
+void shader_setUniform4f(Shader *self, char *name, vec4s val);
 
-typedef struct{
-    Shader shader;
-    u32 vao, vbo, ebo, numElements;
-}Renderer;
+void shader_setUniform_mat4(Shader *self, char *name, mat4s val);
 
-void renderer_create(Renderer *self);
-void renderer_draw_square(Renderer *self);
+// renderer
+
+typedef struct {
+  Shader shader;
+  u32 vao, vbo, ebo, numElements;
+
+  vec4s clear_color;
+} Renderer;
+
+void renderer_init(Renderer *self);
+void renderer_prepare(Renderer *self);
+void renderer_render(Renderer *self);
+void renderer_delete(Renderer *self);
+
+// camera
+typedef struct {
+  vec2s position;
+  mat4s viewMat;
+  mat4s projMat;
+} Camera;
+
+void camera_init(Camera *self, vec2s position);
+
+void camera_update(Camera *self);
 
 #endif // GFX_H

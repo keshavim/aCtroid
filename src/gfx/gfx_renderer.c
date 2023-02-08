@@ -1,34 +1,35 @@
 #include "gfx.h"
+#include "scene.h"
+void renderer_init(Renderer *self) {
+  *self = (Renderer){0};
+  self->shader = shader_create("assets/def.glsl");
+  self->clear_color = (vec4s){{0.3, 0.2, 0.6, 1}};
 
-void renderer_create(Renderer *self){
-    self->shader = shader_create("assets/def.glsl");
-
-    glCreateVertexArrays(1, &self->vao);
-    glBindVertexArray(self->vao);
-
-    glGenBuffers(1, &self->vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, self->vbo);
-    glBufferData(GL_ARRAY_BUFFER, (3 *4) * sizeof(float),(float[]){
-        0, 0, 0,
-        0, 1, 0,
-        1, 1, 0,
-        1, 0, 0,
-    }, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0); 
-
-    glGenBuffers(1, &self->ebo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, self->ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (6)*sizeof(u32), (u32[]){
-        3, 0, 1, 3, 1, 2
-    },GL_STATIC_DRAW);
-    self->numElements = 6;
-
-
-    glBindVertexArray(0);
+  // todo: move this stuff in to a sprite struct
 }
-void renderer_draw_square(Renderer *self){
-    shader_bind(&self->shader);
-    glBindVertexArray(self->vao);
-    glDrawElements(GL_TRIANGLES, self->numElements, GL_UNSIGNED_INT, NULL);
+void renderer_prepare(Renderer *self) {
+  glClearColor(self->clear_color.x, self->clear_color.y, self->clear_color.z,
+               self->clear_color.w);
+  glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void renderer_render(Renderer *self) {
+  shader_bind(&self->shader);
+
+  shader_setUniform_mat4(&self->shader, "viewMat", scene.camera.viewMat);
+  shader_setUniform_mat4(&self->shader, "projMat", scene.camera.projMat);
+
+  for (int i = 0; i < MAX_ENTITIES; i++) {
+    Entity *e = &scene.entities[i];
+    shader_setUniform_mat4(&self->shader, "modelMat", e->modelMat);
+    glBindVertexArray(e->vao);
+    glDrawElements(GL_TRIANGLES, e->numelements, GL_UNSIGNED_INT, NULL);
+  }
+}
+
+void renderer_delete(Renderer *self) {
+  shader_delete(&self->shader);
+  glDeleteBuffers(1, &self->vbo);
+  glDeleteBuffers(1, &self->ebo);
+  glDeleteVertexArrays(1, &self->vao);
 }

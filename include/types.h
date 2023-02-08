@@ -2,8 +2,8 @@
 #define TYPES_H
 
 // fixed width numeric types
-#include <stdint.h>
 #include <inttypes.h>
+#include <stdint.h>
 
 typedef uint8_t u8;
 typedef uint16_t u16;
