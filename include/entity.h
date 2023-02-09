@@ -6,6 +6,7 @@ typedef struct Entity_Flags {
   bool hasSprite;
   bool isPlayer;
   bool isAstroid;
+  bool isBullet;
 } Entity_Flags;
 
 typedef struct {
@@ -36,7 +37,7 @@ typedef struct {
   Entity_Flags flags;
 } Entity;
 
-Entity entity_create(int id, vec3s pos, Entity_Flags flags);
+Entity entity_create(int id, vec3s pos, float rotation, float scale, Entity_Flags flags);
 
 void entity_move(Entity *self, vec3s offset);
 void entity_rotate(Entity *self, float angle);

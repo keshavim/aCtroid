@@ -19,5 +19,6 @@ typedef float f32;
 typedef double f64;
 
 #define RANDOM(min, max) rand() % max + min
+#define LOG(x) printf(x);fflush(stdout);
 
 #endif

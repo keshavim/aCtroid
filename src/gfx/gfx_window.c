@@ -86,10 +86,10 @@ static void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id,
 static void key_callback(GLFWwindow *handle, int key, int scancode, int action,
                          int mods) {
   window.key[key].down = action != GLFW_RELEASE;
-  if(action == GLFW_REPEAT || action == GLFW_RELEASE)
+  if (action == GLFW_REPEAT || action == GLFW_RELEASE)
     window.key[key].pressed = false;
-  else window.key[key].pressed = true;
-
+  else
+    window.key[key].pressed = true;
 
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     glfwSetWindowShouldClose(handle, GLFW_TRUE);
@@ -149,25 +149,21 @@ void window_loop() {
   float counter = 0, tempfps = 0;
 
   while (!glfwWindowShouldClose(window.handle)) {
-  window.currentTime = glfwGetTime();
-  window.deltaTime = window.currentTime - window.lastTime;
-  window.lastTime = window.currentTime;
+    window.currentTime = glfwGetTime();
+    window.deltaTime = window.currentTime - window.lastTime;
+    window.lastTime = window.currentTime;
 
-  if(counter <= 1){
-    counter += window.deltaTime;
-    tempfps++;
-  }
-  else{
-    window.fps = tempfps;
-    char buf[100] = ""; 
-    snprintf(buf, 99, "Asstroids FPS:%3f", window.fps);
-    glfwSetWindowTitle(window.handle, buf);
-    counter = 0;
-    tempfps = 0;
-  }
-
-
-
+    if (counter <= 1) {
+      counter += window.deltaTime;
+      tempfps++;
+    } else {
+      window.fps = tempfps;
+      char buf[100] = "";
+      snprintf(buf, 99, "Asstroids FPS:%3f", window.fps);
+      glfwSetWindowTitle(window.handle, buf);
+      counter = 0;
+      tempfps = 0;
+    }
 
     scene_update();
     scene_render();

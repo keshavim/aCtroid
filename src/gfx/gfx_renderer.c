@@ -21,11 +21,12 @@ void renderer_render(Renderer *self) {
 
   for (int i = 0; i < scene.numEntities; i++) {
     Entity *e = &scene.entities[i];
+    if (e->flags.hasSprite) {
 
-    fflush(stdout);
-    shader_setUniform_mat4(&self->shader, "modelMat", e->modelMat);
-    glBindVertexArray(e->vao);
-    glDrawElements(GL_TRIANGLES, e->numelements, GL_UNSIGNED_INT, NULL);
+      shader_setUniform_mat4(&self->shader, "modelMat", e->modelMat);
+      glBindVertexArray(e->vao);
+      glDrawElements(GL_TRIANGLES, e->numelements, GL_UNSIGNED_INT, NULL);
+    }
   }
 }
 

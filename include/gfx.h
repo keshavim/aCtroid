@@ -16,12 +16,10 @@
 #include "types.h"
 
 // window
-//todo improve input detection
+// todo improve input detection
 typedef struct {
   bool down, pressed;
 } Button;
-
-
 
 typedef struct {
   GLFWwindow *handle;
@@ -29,7 +27,6 @@ typedef struct {
   s8 *title;
 
   // this is completely unnessacery but it looks cool so i'm keeping it
-  
 
   Button key[GLFW_KEY_LAST];
   Button mouse[GLFW_MOUSE_BUTTON_LAST];
