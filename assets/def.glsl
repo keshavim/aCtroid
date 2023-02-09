@@ -9,7 +9,7 @@ uniform mat4 modelMat, viewMat, projMat;
 void main()
 {
     gl_Position = projMat *viewMat * modelMat* vec4(aPos, 1.0); //projMat * viewMat* see how we directly give a vec3 to vec4's constructor
-    vertexColor = vec4(0.5, 0.0, 0.0, 1.0); // set the output variable to a dark-red color
+    vertexColor = vec4(1.0,1.0, 1.0, 1.0); // set the output variable to a dark-red color
 }
 //VERTEX_END
 

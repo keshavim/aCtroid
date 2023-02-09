@@ -1,6 +1,7 @@
 
 
 #include "gfx.h"
+#include "scene.h"
 
 Window window;
 
@@ -85,6 +86,11 @@ static void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id,
 static void key_callback(GLFWwindow *handle, int key, int scancode, int action,
                          int mods) {
   window.key[key].down = action != GLFW_RELEASE;
+  if(action == GLFW_REPEAT || action == GLFW_RELEASE)
+    window.key[key].pressed = false;
+  else window.key[key].pressed = true;
+
+
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     glfwSetWindowShouldClose(handle, GLFW_TRUE);
 }
@@ -97,12 +103,8 @@ static void framebuffer_size_callback(GLFWwindow *window, int width,
   glViewport(0, 0, width, height);
 }
 
-void window_init(sceneFunc init, sceneFunc update, sceneFunc render,
-                 sceneFunc delete) {
-  window.init = init;
-  window.update = update;
-  window.render = render;
-  window.delete = delete;
+void window_init() {
+
   glfwSetErrorCallback(error_callback);
 
   /* Initialize the library */
@@ -142,7 +144,7 @@ void window_init(sceneFunc init, sceneFunc update, sceneFunc render,
 }
 
 void window_loop() {
-  window.init();
+  scene_init();
 
   float counter = 0, tempfps = 0;
 
@@ -167,12 +169,12 @@ void window_loop() {
 
 
 
-    window.update();
-    window.render();
+    scene_update();
+    scene_render();
 
     glfwSwapBuffers(window.handle);
     glfwPollEvents();
   }
-  window.delete();
+  scene_delete();
   glfwTerminate();
 }

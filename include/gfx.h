@@ -11,15 +11,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "types.h"
 
 // window
+//todo improve input detection
 typedef struct {
-  bool down;
+  bool down, pressed;
 } Button;
 
-typedef void (*sceneFunc)(void);
+
 
 typedef struct {
   GLFWwindow *handle;
@@ -27,7 +29,7 @@ typedef struct {
   s8 *title;
 
   // this is completely unnessacery but it looks cool so i'm keeping it
-  sceneFunc init, delete, render, update;
+  
 
   Button key[GLFW_KEY_LAST];
   Button mouse[GLFW_MOUSE_BUTTON_LAST];
@@ -37,8 +39,7 @@ typedef struct {
 // global window
 extern Window window;
 
-void window_init(sceneFunc init, sceneFunc update, sceneFunc render,
-                 sceneFunc delete);
+void window_init();
 void window_loop();
 
 // shader
@@ -50,7 +51,7 @@ typedef struct {
 
 Shader shader_create(char *filepath);
 void shader_bind(Shader *self);
-void shader_unbind(Shader *self);
+void shader_unbind();
 void shader_delete(Shader *self);
 
 void shader_setUniformi(Shader *self, char *name, s32 val);

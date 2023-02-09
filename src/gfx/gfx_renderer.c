@@ -3,7 +3,7 @@
 void renderer_init(Renderer *self) {
   *self = (Renderer){0};
   self->shader = shader_create("assets/def.glsl");
-  self->clear_color = (vec4s){{0.3, 0.2, 0.6, 1}};
+  self->clear_color = (vec4s){{0.0, 0.0, 0.0, 1}};
 
   // todo: move this stuff in to a sprite struct
 }
@@ -19,8 +19,10 @@ void renderer_render(Renderer *self) {
   shader_setUniform_mat4(&self->shader, "viewMat", scene.camera.viewMat);
   shader_setUniform_mat4(&self->shader, "projMat", scene.camera.projMat);
 
-  for (int i = 0; i < MAX_ENTITIES; i++) {
+  for (int i = 0; i < scene.numEntities; i++) {
     Entity *e = &scene.entities[i];
+
+    fflush(stdout);
     shader_setUniform_mat4(&self->shader, "modelMat", e->modelMat);
     glBindVertexArray(e->vao);
     glDrawElements(GL_TRIANGLES, e->numelements, GL_UNSIGNED_INT, NULL);

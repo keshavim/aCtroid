@@ -82,7 +82,7 @@ Shader shader_create(char *filepath) {
 }
 
 void shader_bind(Shader *self) { glUseProgram(self->program); }
-void shader_unbind(Shader *self) { glUseProgram(0); }
+void shader_unbind() { glUseProgram(0); }
 void shader_delete(Shader *self) { glDeleteProgram(self->program); }
 
 void shader_setUniformi(Shader *self, char *name, s32 val) {
